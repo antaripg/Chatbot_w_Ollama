@@ -35,13 +35,19 @@ def stream_chat(model, messages):
         logging.error(f"Error during streaming: {str(e)}")
         raise e
     
+def clear_chat_history():
+    st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
+    
 # Streamlit MAIN Function
 def main():
-    st.title("Chat with LLMs with Ollama")
+    # st.set_page_config(page_title=":robot: OllamaChat")
+    st.title("Local Chat")
     logging.info("App Started")
 
     # Sidebar for model selection
-    model = st.sidebar.selectbox("Chose a Model", ["llama2", "llama3", "phi3", "mistral"])
+    model = st.sidebar.selectbox("Chose a Model", ["llama2", "mistral:v0.2", "phi3:medium"])
+    st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
+
     logging.info(f"Model Selected: {model}")
 
     # Prompt for user input and save to chat history
